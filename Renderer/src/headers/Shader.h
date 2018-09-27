@@ -22,6 +22,7 @@ public:
 	int GetUniformLocation(const std::string& name) const;
 
 	void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3) const;
+	void SetUniform1i(const std::string& name, int value) const;
 
 private:
 	void CreateShader(const std::string& vSource, const std::string& fSource);

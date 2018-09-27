@@ -369,6 +369,7 @@
     <ClInclude Include="src\external_headers\stb\stb_image.h" />
     <ClInclude Include="src\headers\Renderer.h" />
     <ClInclude Include="src\headers\Shader.h" />
+    <ClInclude Include="src\headers\Texture.h" />
     <ClInclude Include="src\headers\VertexLayout.h" />
     <ClInclude Include="src\headers\WindowManager.h" />
   </ItemGroup>
@@ -505,6 +506,7 @@
     <None Include="src\external_headers\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sources\Texture.cpp" />
     <ClCompile Include="src\sources\IndexBuffer.cpp" />
     <ClCompile Include="src\sources\Model.cpp" />
     <ClCompile Include="src\sources\main.cpp" />

@@ -5,6 +5,7 @@
 #include "Model.h"
 #include "IndexBuffer.h"
 #include "Shader.h"
+#include "Texture.h"
 
 int main(void)
 {
@@ -20,15 +21,16 @@ int main(void)
 	}
 
 	Renderer renderer;
+	renderer.EnableBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
 	float data[] = {
-		-0.5f, -0.5f,
-		0.5f, -0.5f,
-		0.5f, 0.5f,
-		-0.5f, 0.5f
+		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+		-0.5f, 0.5f, 0.0f, 1.0f, 0.5f, 0.3f, 0.8f
 	};
-	unsigned int size = 8 * sizeof(float);
+	unsigned int size = 28 * sizeof(float);
 	unsigned int idxs[] = {
 		0, 1, 2,
 		2, 3, 0
@@ -36,6 +38,8 @@ int main(void)
 
 	VertexLayout layout;
 	layout.Push<float>(2);
+	layout.Push<float>(2);
+	layout.Push<float>(3);
 
 	Model model;
 	model.Build(data, size, layout);
@@ -44,11 +48,18 @@ int main(void)
 
 	Shader shader("res/shaders/Basic.shader");
 
+	Texture tex("res/pngs/moon.png");
+	tex.Bind(2);
+	shader.SetUniform1i("u_Texture", tex.GetSlot());
+
+	Texture tex2("res/pngs/smiley.png");
+	tex2.Bind(1);
+	shader.SetUniform1i("u_OtherTexture", tex2.GetSlot());
+
 	/* Loop until the user closes the window */
 	while (!window.ShouldClose())
 	{
 
-		shader.SetUniform4f("u_Color", 0.3f, 0.4f, 0.5f, 1.0f);
 		renderer.DrawElements(model, indices, shader);
 		
 		window.SwapBuffers();

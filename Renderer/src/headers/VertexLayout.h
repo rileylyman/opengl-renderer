@@ -21,6 +21,7 @@ public:
 	template<>
 	void Push<float>(unsigned int count) {
 		elements.push_back({ count, GL_FLOAT, GL_FALSE });
+		stride += count * SizeOf(GL_FLOAT);
 	}
 
 	inline unsigned int GetStride() const { return stride; }

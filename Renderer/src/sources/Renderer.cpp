@@ -36,3 +36,9 @@ void Renderer::DrawElements(const Model& model, const IndexBuffer& indices, cons
 	GLCall(glClear(GL_COLOR_BUFFER_BIT));
 	GLCall(glDrawElements(GL_TRIANGLES, indices.GetCount(), GL_UNSIGNED_INT, nullptr));
 }
+
+void Renderer::EnableBlending(unsigned int source, unsigned int destination) const
+{
+	GLCall(glBlendFunc(source, destination));
+	GLCall(glEnable(GL_BLEND));
+}

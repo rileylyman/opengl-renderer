@@ -753,6 +753,9 @@
     <ClInclude Include="src\headers\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\headers\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\external_headers\glm\detail\func_common.inl">
@@ -1167,6 +1170,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\sources\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sources\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
