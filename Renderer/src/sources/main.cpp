@@ -6,6 +6,8 @@
 #include "IndexBuffer.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 int main(void)
 {
@@ -59,7 +61,14 @@ int main(void)
 	/* Loop until the user closes the window */
 	while (!window.ShouldClose())
 	{
-
+		model.SetModelMatrix (
+			glm::translate(glm::rotate (
+				model.GetModelMatrix(), 
+				glm::radians(1.0f), 
+				glm::vec3(0.0f, 0.0f, 1.0f)
+			), glm::vec3(-0.005f, -0.005f, 0.0f))
+		);
+		shader.SetUniformMatrix4f("u_Transformation", model.GetModelMatrix());
 		renderer.DrawElements(model, indices, shader);
 		
 		window.SwapBuffers();

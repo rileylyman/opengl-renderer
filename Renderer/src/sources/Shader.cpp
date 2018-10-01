@@ -23,7 +23,17 @@ void Shader::StopUse() const {
 
 int Shader::GetUniformLocation(const std::string& name) const {
 	GLCall(int location = glGetUniformLocation(id, name.c_str()));
+	if (location == -1) {
+		std::cout << "Uniform " << name << " either could not be found, or is not used." << std::endl;
+		ASSERT(false);
+	}
 	return location;
+}
+
+void Shader::SetUniformMatrix4f(const std::string & name, const glm::mat4 & matrix) const
+{
+	Use();
+	glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]);
 }
 
 void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3) const {

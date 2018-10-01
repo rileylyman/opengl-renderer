@@ -1,7 +1,8 @@
 #include "Model.h"
 #include "OpenGL.h"
+#include "glm/gtc/matrix_transform.hpp"
 
-Model::Model() : vertexArrayId(0), vertexBufferId(0) {}
+Model::Model() : vertexArrayId(0), vertexBufferId(0), modelMatrix(glm::identity<glm::mat4>())  {}
 
 Model::~Model()
 {
@@ -39,6 +40,12 @@ void Model::Build(const void* data, unsigned int size, const VertexLayout& layou
 void Model::Bind() const {
 	GLCall(glBindVertexArray(vertexArrayId));
 }
+
 void Model::Unbind() const {
 	GLCall(glBindVertexArray(0));
 }
+
+void Model::SetModelMatrix(glm::mat4 matrix) {
+	modelMatrix = matrix;
+}
+

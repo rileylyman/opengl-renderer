@@ -1,17 +1,19 @@
 #shader vertex
 #version 330 core
 
-layout(location = 0) in vec4 position;
+layout(location = 0) in vec3 position;
 layout(location = 1) in vec2 tex;
 layout(location = 2) in vec3 aColor;
 
 out vec4 ourColor;
 out vec2 texCoords;
 
+uniform mat4 u_Transformation;
+
 void main() {
-	gl_Position = position;
+	gl_Position = u_Transformation * vec4(position.xyz, 1.0f);
 	texCoords = tex;
-	ourColor = vec4(aColor.xyz, 1.0);
+	ourColor = vec4(aColor.xyz, 1.0f);
 }
 
 #shader fragment
