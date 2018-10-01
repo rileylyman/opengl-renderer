@@ -23,8 +23,6 @@ int main(void)
 	}
 
 	Renderer renderer;
-	renderer.EnableBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 
 	float data[] = {
 		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
@@ -58,19 +56,48 @@ int main(void)
 	tex2.Bind(1);
 	shader.SetUniform1i("u_OtherTexture", tex2.GetSlot());
 
+	glm::mat4 cameraView = glm::identity<glm::mat4>();
+	cameraView = glm::translate(cameraView, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	glm::mat4 cameraProjection = glm::perspective(glm::radians(45.0f), 800.0f / 600, 0.1f, 100.0f);
+
+	glm::vec3 cubePositions[] = {
+		glm::vec3(0.0f,  0.0f,  0.0f),
+		glm::vec3(2.0f,  5.0f, -15.0f),
+		glm::vec3(-1.5f, -2.2f, -2.5f),
+		glm::vec3(-3.8f, -2.0f, -12.3f),
+		glm::vec3(2.4f, -0.4f, -3.5f),
+		glm::vec3(-1.7f,  3.0f, -7.5f),
+		glm::vec3(1.3f, -2.0f, -2.5f),
+		glm::vec3(1.5f,  2.0f, -2.5f),
+		glm::vec3(1.5f,  0.2f, -1.5f),
+		glm::vec3(-1.3f,  1.0f, -1.5f)
+	};
+
 	/* Loop until the user closes the window */
 	while (!window.ShouldClose())
 	{
-		model.SetModelMatrix (
-			glm::translate(glm::rotate (
-				model.GetModelMatrix(), 
-				glm::radians(1.0f), 
-				glm::vec3(0.0f, 0.0f, 1.0f)
-			), glm::vec3(-0.005f, -0.005f, 0.0f))
-		);
-		shader.SetUniformMatrix4f("u_Transformation", model.GetModelMatrix());
-		renderer.DrawElements(model, indices, shader);
+		renderer.Clear();
+
+		for (unsigned int i = 0; i < 10; i++) {
+			glm::vec3 t = cubePositions[i];
+
+			model.SetModelMatrix(glm::translate(model.GetModelMatrix(), t));
+			model.SetModelMatrix(
+				glm::rotate(
+					model.GetModelMatrix(), 
+					glm::radians(20.0f * i), 
+					glm::vec3(1.0f, 0.3f, 0.5f)
+				)
+			);
+
+			shader.SetUniformMatrix4f("u_Transformation", cameraProjection * cameraView * model.GetModelMatrix());
+			renderer.DrawElements(model, indices, shader);
+			model.SetModelMatrix(glm::identity<glm::mat4>());
+		}
 		
+		model.SetModelMatrix(glm::identity<glm::mat4>());
+
 		window.SwapBuffers();
 		WindowManager::PollEvents();
 	}
