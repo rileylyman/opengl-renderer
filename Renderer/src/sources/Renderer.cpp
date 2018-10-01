@@ -26,6 +26,7 @@ Renderer::Renderer() {
 	if (glewInit() != GLEW_OK) {
 		std::cout << "Failed to init GLEW" << std::endl;
 	}
+	ASSERT(false);
 }
 
 void Renderer::DrawElements(const Model& model, const IndexBuffer& indices, const Shader& shader) const
